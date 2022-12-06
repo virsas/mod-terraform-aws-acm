@@ -1,5 +1,19 @@
 # Changelog
 
+## [v3.0.1] (2022-12-06)
+
+### Bug fixes
+
+- N/A
+
+### Features
+
+- N/A
+
+### BREAKING CHANGES
+
+- Terraform resource local name change (now all modules will use the same local name)
+
 ## [v3.0.0] (2022-10-25)
 
 ### Bug fixes

@@ -12,13 +12,13 @@ locals {
     [for d in concat([var.cert.domain], var.cert.alternatives) : replace(d, "*.", "")]
   )
   validation_domains = distinct(
-    [for k, v in try(aws_acm_certificate.acm[0].domain_validation_options) : merge(
+    [for k, v in try(aws_acm_certificate.vss[0].domain_validation_options) : merge(
       tomap(v), { domain_name = replace(v.domain_name, "*.", "") }
     )]
   )
 }
 
-resource "aws_acm_certificate" "acm" {
+resource "aws_acm_certificate" "vss" {
   count                     = var.create_cert || var.import_cert ? 1 : 0
 
   domain_name               = var.create_cert && !var.import_cert ? var.cert.domain : null
@@ -38,7 +38,7 @@ resource "aws_acm_certificate" "acm" {
   }
 }
 
-resource "aws_route53_record" "acm" {
+resource "aws_route53_record" "vss" {
   count = var.validation == "DNS" && var.zone != "" ? length(local.distinct_domains) : 0
 
   zone_id = var.zone
@@ -52,5 +52,5 @@ resource "aws_route53_record" "acm" {
 
   allow_overwrite = true
 
-  depends_on = [aws_acm_certificate.acm]
+  depends_on = [aws_acm_certificate.vss]
 }
