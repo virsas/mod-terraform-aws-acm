@@ -15,7 +15,7 @@ Terraform module to create ACM certificates
 - **assumableRole** - The role the user will assume if assumeRole is enabled. By default, it is OrganizationAccountAccessRole.
 - **create_cert** - If certificate should be created. By default it is set to true, only in case of import, this should be disabled.
 - **import_cert** - For import, please set this value to true, disable creation and provide the name of the cert in cert object.
-- **cert_path** - By default the certs are located in ./cert/acm directory with names *NAME* and extensions .crt .key and -ca.crt.
+- **cert_path** - By default the certs are located in ./cert/acm directory with names _NAME_ and extensions .crt .key and -ca.crt.
 - **cert** - Certificate for domain name and its alternatives. Eg.: cert = { domain = 'example.org', alternatives = ['*.example.org']}
 - **validation** - Method for certificate validation. DNS or EMAIL are valid options. In the case of DNS, route53 zone must be provided too. By default, we will validate the domain by email.
 - **zone** - The Route53 zone ID, in case DNS method is selected.
@@ -25,13 +25,13 @@ Terraform module to create ACM certificates
 
 ### Route53 validation for single domain with subdomains (DNS or Email validation)
 
-``` terraform
+```terraform
 variable "acm_example_cert" {
   default = { name = "example", domain = "example.org", alternatives = [ "www.example.org", "api.example.org", "app.example.org" ] }
 }
 
 module "acm_example" {
-  source   = "git::https://github.com/virsas/mod-terraform-aws-acm.git?ref=v3.0.0"
+  source   = "git::https://github.com/virsas/mod-terraform-aws-acm.git?ref=v3.0.2"
 
   profile = "default"
   accountID = var.accountID
@@ -50,13 +50,13 @@ output "acm_example_arn" {
 
 ### Route53 validation for multi domain certification (EMAIL validation only)
 
-``` terraform
+```terraform
 variable "acm_multi_cert" {
   default = { name = "example", domain = "example.org", alternatives = [ "*.example.org", "example.com", "*.example.com" ] }
 }
 
 module "acm_multi" {
-  source   = "git::https://github.com/virsas/mod-terraform-aws-acm.git?ref=v3.0.0"
+  source   = "git::https://github.com/virsas/mod-terraform-aws-acm.git?ref=v3.0.2"
 
   profile = "default"
   accountID = var.accountID
@@ -72,13 +72,13 @@ output "acm_multi_arn" {
 
 ### Cert import
 
-``` terraform
+```terraform
 variable "acm_import_cert" {
   default = { name = "google", domain = "", alternatives = [] }
 }
 
 module "acm_import" {
-  source   = "git::https://github.com/virsas/mod-terraform-aws-acm.git?ref=v3.0.0"
+  source   = "git::https://github.com/virsas/mod-terraform-aws-acm.git?ref=v3.0.2"
 
   profile = "default"
   accountID = var.accountID

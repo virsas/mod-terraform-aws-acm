@@ -1,5 +1,19 @@
 # Changelog
 
+## [v3.0.2] (2023-08-22)
+
+### Bug fixes
+
+- Migrated to dynamic options, because statement options did work most of the time, but not all the time.
+
+### Features
+
+- N/A
+
+### BREAKING CHANGES
+
+- N/A
+
 ## [v3.0.1] (2022-12-06)
 
 ### Bug fixes

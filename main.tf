@@ -16,6 +16,7 @@ locals {
       tomap(v), { domain_name = replace(v.domain_name, "*.", "") }
     )]
   )
+  options = var.import_cert ? [] : [1]
 }
 
 resource "aws_acm_certificate" "vss" {
@@ -29,8 +30,11 @@ resource "aws_acm_certificate" "vss" {
   private_key               = var.import_cert && !var.create_cert ? file("${var.cert_path}/${var.cert.name}.key") : null
   certificate_chain         = var.import_cert && !var.create_cert ? file("${var.cert_path}/${var.cert.name}-ca.crt") : null
 
-  options {
-    certificate_transparency_logging_preference = var.import_cert ? null : "ENABLED"
+  dynamic "options" {
+    for_each = local.options
+    content {
+      certificate_transparency_logging_preference = "ENABLED"
+    }
   }
 
   lifecycle {
